@@ -18,6 +18,9 @@ const config = {
             },
         },
         extend: {
+            screens: {
+                xs: "520px",
+            },
             colors: {
                 primary: "#635bff",
                 "primary-content": "#ffffff",
