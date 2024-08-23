@@ -1,12 +1,18 @@
 import DotPattern from "@/components/magicui/dot-pattern";
 import HeroHeader from "./_components/HeroHeader";
 import HeroParagraph from "./_components/HeroParagraph";
+import TryItButton from "./_components/TryItButton";
+import AboutButton from "./_components/AboutButton";
 
 export default function Home() {
     return (
         <main className="flex h-full w-full flex-col items-center justify-center gap-6 pb-10">
             <HeroHeader />
             <HeroParagraph />
+            <div className="flex w-fit flex-row items-center gap-8">
+                <TryItButton />
+                <AboutButton />
+            </div>
             <DotPattern
                 width={24}
                 height={24}
