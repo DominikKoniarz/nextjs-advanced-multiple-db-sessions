@@ -59,7 +59,7 @@ export default function AboutPage() {
                         <br />
                         You will be able to create an account, then login and
                         see additional informations about your session. You will
-                        be also able to login from multiple devices and see how
+                        also be able to login from multiple devices and see how
                         sessions are managed. Then if you need, you could logout
                         any session from any device.
                     </p>
