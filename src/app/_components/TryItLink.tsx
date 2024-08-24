@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { GoArrowRight } from "react-icons/go";
 
-export default function TryItButton() {
+export default function TryItLink() {
     return (
         <Link
             href="/login"

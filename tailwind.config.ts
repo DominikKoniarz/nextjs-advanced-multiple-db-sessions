@@ -20,6 +20,7 @@ const config = {
         extend: {
             screens: {
                 xs: "520px",
+                xxs: "410px",
             },
             colors: {
                 primary: "#635bff",
@@ -64,7 +65,10 @@ const config = {
             },
         },
     },
-    plugins: [require("tailwindcss-animate")],
+    plugins: [
+        require("tailwindcss-animate"),
+        require("@tailwindcss/typography"),
+    ],
 } satisfies Config;
 
 export default config;
