@@ -35,11 +35,12 @@ export default function RegisterForm() {
                         <FormItem className="space-y-1">
                             <FormControl>
                                 <FloatingLabelInput
+                                    type="email"
                                     placeholder="Email"
                                     {...field}
                                 />
                             </FormControl>
-                            <FormMessage className="ml-0.5 text-error" />
+                            <FormMessage className="ml-0.5" />
                         </FormItem>
                     )}
                 />
@@ -55,7 +56,7 @@ export default function RegisterForm() {
                                     {...field}
                                 />
                             </FormControl>
-                            <FormMessage className="ml-0.5 text-error" />
+                            <FormMessage className="ml-0.5" />
                         </FormItem>
                     )}
                 />
@@ -71,7 +72,7 @@ export default function RegisterForm() {
                                     {...field}
                                 />
                             </FormControl>
-                            <FormMessage className="ml-0.5 text-error" />
+                            <FormMessage className="ml-0.5" />
                         </FormItem>
                     )}
                 />

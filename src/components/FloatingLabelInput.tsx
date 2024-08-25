@@ -31,7 +31,7 @@ const FloatingLabelInput = forwardRef<HTMLInputElement, FloatingLabelInput>(
                     type={type}
                     ref={ref}
                     className={cn(
-                        "rounded-ll peer h-fit w-full border-2 px-3 py-1.5 text-sm transition-[border,font] duration-100 hover:border-slate-800 focus-visible:border-2 focus-visible:border-primary focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 group-hover:border-2 group-hover:border-primary sm:px-4 sm:py-2 sm:text-base",
+                        "peer h-fit w-full rounded-ll border-2 px-3 py-1.5 text-sm transition-[border,font] duration-100 hover:border-slate-800 focus-visible:border-2 focus-visible:border-primary focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 group-hover:border-2 group-hover:border-primary sm:px-4 sm:py-2 sm:text-base",
                         className,
                     )}
                     placeholder=""
@@ -39,7 +39,8 @@ const FloatingLabelInput = forwardRef<HTMLInputElement, FloatingLabelInput>(
                 <span
                     className={cn(
                         "absolute left-2.5 top-1/2 h-fit w-fit -translate-y-1/2 transform cursor-text bg-white px-0.5 font-medium text-slate-500 transition-all peer-focus-visible:left-2.5 peer-focus-visible:top-0 peer-focus-visible:cursor-default peer-focus-visible:text-xs peer-focus-visible:font-medium sm:left-3.5 sm:peer-focus-visible:left-3.5",
-                        floatLabel && "left-3.5 top-0 cursor-default text-xs",
+                        floatLabel &&
+                            "left-2.5 top-0 cursor-default text-xs sm:left-3.5",
                     )}
                 >
                     {placeholder}
