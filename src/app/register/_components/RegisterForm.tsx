@@ -2,36 +2,78 @@
 
 import FloatingLabelInput from "@/components/FloatingLabelInput";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormMessage,
+} from "@/components/ui/form";
+import useRegisterForm from "../_hooks/useRegisterForm";
 
 export default function RegisterForm() {
-    const [email, setEmail] = useState("");
+    const form = useRegisterForm();
 
     return (
-        <>
-            <FloatingLabelInput
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-            />
-            <FloatingLabelInput
-                value={email}
-                type="password"
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Password"
-            />
-            <FloatingLabelInput
-                value={email}
-                type="password"
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Repeat Password"
-            />
-            <Button
-                type="submit"
-                className="h-9 bg-secondary text-secondary-content hover:bg-secondary sm:h-10"
+        <Form {...form}>
+            <form
+                onSubmit={form.handleSubmit((data) => console.log(data))}
+                className="relative z-10 flex flex-col gap-6 sm:gap-8"
             >
-                Sign Up
-            </Button>
-        </>
+                <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                        <FormItem className="space-y-1">
+                            <FormControl>
+                                <FloatingLabelInput
+                                    placeholder="Email"
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage className="ml-0.5 text-error" />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="password"
+                    render={({ field }) => (
+                        <FormItem className="space-y-1">
+                            <FormControl>
+                                <FloatingLabelInput
+                                    type="password"
+                                    placeholder="Password"
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage className="ml-0.5 text-error" />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="repeatPassword"
+                    render={({ field }) => (
+                        <FormItem className="space-y-1">
+                            <FormControl>
+                                <FloatingLabelInput
+                                    type="password"
+                                    placeholder="Repeat Password"
+                                    {...field}
+                                />
+                            </FormControl>
+                            <FormMessage className="ml-0.5 text-error" />
+                        </FormItem>
+                    )}
+                />
+                <Button
+                    type="submit"
+                    className="h-9 bg-secondary text-secondary-content hover:bg-secondary sm:h-10"
+                >
+                    Sign Up
+                </Button>
+            </form>
+        </Form>
     );
 }
