@@ -11,7 +11,7 @@ const generateVerifyUrl = (token: string): string => {
     return url.toString();
 };
 
-const verify = async (
+export const verifyReCaptcha = async (
     token: string,
 ): Promise<{ success: boolean; response: unknown }> => {
     const url = generateVerifyUrl(token);
@@ -31,8 +31,4 @@ const verify = async (
         success: !!data.success,
         response: data,
     };
-};
-
-export const reCaptcha = {
-    verify,
 };

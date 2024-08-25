@@ -12,7 +12,14 @@ export class UnauthorizedError extends Error {
     }
 }
 
+export class ForbiddenError extends Error {
+    constructor(public message: string) {
+        super(message);
+    }
+}
+
 export const actionClient = createSafeActionClient({
+    // TODO: add logging
     handleReturnedServerError(e) {
         if (e instanceof BadRequestError) {
             return e.message;
