@@ -1,6 +1,7 @@
 "use server";
 
 import { createUser, getUserByEmail } from "@/data-access/users";
+import { lucia } from "@/lib/auth";
 import { hashPassword } from "@/lib/bcrypt";
 import { verifyReCaptcha } from "@/lib/reCaptcha";
 import {
@@ -9,6 +10,8 @@ import {
     ForbiddenError,
 } from "@/lib/safeAction";
 import registerSchema from "@/schema/registerSchema";
+import { cookies, headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 const registerUser = actionClient
     .schema(registerSchema)
@@ -27,12 +30,25 @@ const registerUser = actionClient
 
         const hashedPassword = await hashPassword(password);
 
-        await createUser({
+        const newUser = await createUser({
             email,
             password: hashedPassword,
         });
 
-        return { success: true };
+        const ip =
+            headers().get("x-real-ip") ||
+            headers().get("x-forwarded-for") ||
+            "";
+
+        const session = await lucia.createSession(newUser.id, { ip });
+        const sessionCookie = lucia.createSessionCookie(session.id);
+        cookies().set(
+            sessionCookie.name,
+            sessionCookie.value,
+            sessionCookie.attributes,
+        );
+
+        redirect("/dashboard");
     });
 
 export default registerUser;

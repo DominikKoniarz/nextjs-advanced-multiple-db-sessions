@@ -5,12 +5,9 @@ import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useAction } from "next-safe-action/hooks";
 import registerUser from "../_actions/registerUser";
-import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 const useRegisterForm = () => {
-    const router = useRouter();
-
     const reCaptchaRef = useRef<ReCAPTCHA>(null);
 
     const form = useForm<RegisterSchema>({
@@ -38,9 +35,6 @@ const useRegisterForm = () => {
     };
 
     const { execute, isPending } = useAction(registerUser, {
-        onSuccess: () => {
-            router.push("/dashboard");
-        },
         onError: (error) => {
             resetFormAndCaptcha();
 
