@@ -22,6 +22,9 @@ const config = {
                 xs: "520px",
                 xxs: "410px",
             },
+            borderRadius: {
+                ll: "10px",
+            },
             colors: {
                 primary: "#635bff",
                 "primary-content": "#ffffff",
