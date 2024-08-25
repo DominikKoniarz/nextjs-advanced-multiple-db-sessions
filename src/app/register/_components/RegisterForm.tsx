@@ -10,9 +10,11 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import useRegisterForm from "../_hooks/useRegisterForm";
+import ReCAPTCHA from "react-google-recaptcha";
+import { env } from "@/env";
 
 export default function RegisterForm() {
-    const form = useRegisterForm();
+    const { form, reCaptchaRef } = useRegisterForm();
 
     return (
         <Form {...form}>
@@ -20,6 +22,12 @@ export default function RegisterForm() {
                 onSubmit={form.handleSubmit((data) => console.log(data))}
                 className="relative z-10 flex flex-col gap-6 sm:gap-8"
             >
+                <ReCAPTCHA
+                    className="hidden"
+                    size="invisible"
+                    sitekey={env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                    ref={reCaptchaRef}
+                />
                 <FormField
                     control={form.control}
                     name="email"
