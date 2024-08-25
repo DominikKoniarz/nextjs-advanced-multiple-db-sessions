@@ -14,7 +14,21 @@ datasource db {
 }
 
 model User {
-  id    String  @id @default(uuid())
-  email String  @unique
-  name  String?
+  id       String    @id @default(uuid())
+  email    String    @unique
+  password String
+  sessions Session[]
+
+  @@index([id])
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  expiresAt DateTime
+  ip        String
+
+  user User @relation(references: [id], fields: [userId], onDelete: Cascade)
+
+  @@index([userId])
 }
