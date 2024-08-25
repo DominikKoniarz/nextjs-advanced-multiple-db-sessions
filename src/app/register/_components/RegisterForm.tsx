@@ -14,12 +14,12 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { env } from "@/env";
 
 export default function RegisterForm() {
-    const { form, reCaptchaRef } = useRegisterForm();
+    const { form, reCaptchaRef, onSubmit, isLoading } = useRegisterForm();
 
     return (
         <Form {...form}>
             <form
-                onSubmit={form.handleSubmit((data) => console.log(data))}
+                onSubmit={onSubmit}
                 className="relative z-10 flex flex-col gap-6 sm:gap-8"
             >
                 <ReCAPTCHA
@@ -79,6 +79,8 @@ export default function RegisterForm() {
                 <Button
                     type="submit"
                     className="h-9 bg-secondary text-secondary-content hover:bg-secondary sm:h-10"
+                    disabled={isLoading}
+                    aria-disabled={isLoading}
                 >
                     Sign Up
                 </Button>

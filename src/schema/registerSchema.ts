@@ -2,6 +2,7 @@ import z from "zod";
 
 const registerSchema = z
     .object({
+        reCaptchaToken: z.string(),
         email: z
             .string({ message: "Type your email!" })
             .email({ message: "Type a valid email!" }),
@@ -10,9 +11,13 @@ const registerSchema = z
         }),
         repeatPassword: z.string(),
     })
-    .refine((data) => data.password === data.repeatPassword, {
-        message: "Passwords don't match!",
-        path: ["repeatPassword"],
+    .superRefine((data, ctx) => {
+        if (data.password !== data.repeatPassword)
+            ctx.addIssue({
+                message: "Passwords don't match!",
+                path: ["repeatPassword"],
+                code: z.ZodIssueCode.custom,
+            });
     });
 
 export default registerSchema;
