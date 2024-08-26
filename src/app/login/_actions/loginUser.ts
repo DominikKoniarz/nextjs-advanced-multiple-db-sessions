@@ -44,10 +44,7 @@ const loginUser = actionClient
             headers().get("x-real-ip") ||
             headers().get("x-forwarded-for") ||
             "";
-        console.log(
-            headers().get("x-real-ip"),
-            headers().get("x-forwarded-for"),
-        );
+
         const session = await lucia.createSession(foundUser.id, { ip });
         const sessionCookie = lucia.createSessionCookie(session.id);
         cookies().set(
