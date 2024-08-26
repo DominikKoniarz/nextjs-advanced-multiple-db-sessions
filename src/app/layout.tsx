@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
 import { Toaster } from "react-hot-toast";
+import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
 const rubik = Rubik({ subsets: ["latin"] });
@@ -18,6 +19,7 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className={rubik.className}>
+                <NextTopLoader color="#938eff" showSpinner={false} />
                 {children}
                 <Toaster
                     position="top-center"
