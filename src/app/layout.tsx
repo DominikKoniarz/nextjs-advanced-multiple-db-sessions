@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import NextTopLoader from "nextjs-toploader";
+import PublicPagesDotPattern from "@/components/PublicPagesDotPattern";
 import "./globals.css";
 
 const rubik = Rubik({ subsets: ["latin"] });
@@ -21,6 +22,7 @@ export default function RootLayout({
             <body className={rubik.className}>
                 <NextTopLoader color="#938eff" showSpinner={false} />
                 {children}
+                <PublicPagesDotPattern />
                 <Toaster
                     position="top-center"
                     toastOptions={{ duration: 3500 }}

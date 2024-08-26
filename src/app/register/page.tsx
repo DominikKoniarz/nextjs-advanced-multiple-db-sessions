@@ -1,4 +1,3 @@
-import PublicPagesDotPattern from "@/components/PublicPagesDotPattern";
 import RegisterForm from "./_components/RegisterForm";
 import RegisterCTA from "./_components/RegisterCTA";
 import AlreadyBeenHere from "./_components/AlreadyBeenHere";
@@ -11,7 +10,6 @@ export default function RegisterPage() {
                 <RegisterForm />
                 <AlreadyBeenHere />
             </div>
-            <PublicPagesDotPattern />
             {/* TODO: google login */}
         </main>
     );

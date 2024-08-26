@@ -1,4 +1,3 @@
-import PublicPagesDotPattern from "@/components/PublicPagesDotPattern";
 import BackToHomeLink from "./_components/BackToHomeLink";
 import Link from "next/link";
 import ProseSection from "./_components/ProseSection";
@@ -68,7 +67,6 @@ export default function AboutPage() {
                     <p>This app is only for educational/testing purposes.</p>
                 </ProseSection>
             </div>
-            <PublicPagesDotPattern />
         </main>
     );
 }

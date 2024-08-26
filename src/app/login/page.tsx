@@ -1,4 +1,3 @@
-import PublicPagesDotPattern from "@/components/PublicPagesDotPattern";
 import LoginCTA from "./_components/LoginCTA";
 import NewHere from "./_components/NewHere";
 import LoginForm from "./_components/LoginForm";
@@ -11,7 +10,6 @@ export default function LoginPage() {
                 <LoginForm />
                 <NewHere />
             </div>
-            <PublicPagesDotPattern />
             {/* TODO: google login */}
         </main>
     );
