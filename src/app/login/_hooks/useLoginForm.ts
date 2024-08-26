@@ -1,24 +1,23 @@
 import type ReCAPTCHA from "react-google-recaptcha";
-import registerSchema, { RegisterSchema } from "@/schema/registerSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useAction } from "next-safe-action/hooks";
-import registerUser from "../_actions/registerUser";
 import toast from "react-hot-toast";
+import loginUser from "../_actions/loginUser";
+import loginSchema, { LoginSchema } from "@/schema/loginSchema";
 
-const useRegisterForm = () => {
+const useLoginForm = () => {
     const reCaptchaRef = useRef<ReCAPTCHA>(null);
 
-    const form = useForm<RegisterSchema>({
-        resolver: zodResolver(registerSchema),
+    const form = useForm<LoginSchema>({
+        resolver: zodResolver(loginSchema),
         mode: "onBlur",
         reValidateMode: "onChange",
         defaultValues: {
             reCaptchaToken: "",
             email: "",
             password: "",
-            repeatPassword: "",
         },
     });
 
@@ -30,11 +29,10 @@ const useRegisterForm = () => {
             reCaptchaToken: "",
             email,
             password: "",
-            repeatPassword: "",
         });
     };
 
-    const { execute, isPending } = useAction(registerUser, {
+    const { execute, isPending } = useAction(loginUser, {
         onError: (error) => {
             resetFormAndCaptcha();
 
@@ -68,4 +66,4 @@ const useRegisterForm = () => {
     return { form, reCaptchaRef, onSubmit, isLoading: isPending };
 };
 
-export default useRegisterForm;
+export default useLoginForm;
