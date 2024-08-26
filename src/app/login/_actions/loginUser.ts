@@ -43,7 +43,7 @@ const loginUser = actionClient
         const ip =
             headers().get("x-real-ip") ||
             headers().get("x-forwarded-for") ||
-            "";
+            "127.0.0.1";
 
         const session = await lucia.createSession(foundUser.id, { ip });
         const sessionCookie = lucia.createSessionCookie(session.id);

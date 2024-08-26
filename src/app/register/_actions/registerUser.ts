@@ -38,7 +38,7 @@ const registerUser = actionClient
         const ip =
             headers().get("x-real-ip") ||
             headers().get("x-forwarded-for") ||
-            "";
+            "127.0.0.1";
 
         const session = await lucia.createSession(newUser.id, { ip });
         const sessionCookie = lucia.createSessionCookie(session.id);
