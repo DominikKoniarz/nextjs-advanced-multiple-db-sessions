@@ -12,6 +12,7 @@ export default function RegisterPage() {
                 <AlreadyBeenHere />
             </div>
             <PublicPagesDotPattern />
+            {/* TODO: google login */}
         </main>
     );
 }
