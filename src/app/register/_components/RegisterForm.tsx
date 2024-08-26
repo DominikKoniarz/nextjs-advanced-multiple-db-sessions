@@ -1,7 +1,6 @@
 "use client";
 
 import FloatingLabelInput from "@/components/FloatingLabelInput";
-import { Button } from "@/components/ui/button";
 import {
     Form,
     FormControl,
@@ -12,6 +11,7 @@ import {
 import useRegisterForm from "../_hooks/useRegisterForm";
 import ReCAPTCHA from "react-google-recaptcha";
 import { env } from "@/env";
+import SubmitButton from "@/components/SubmitButton";
 
 export default function RegisterForm() {
     const { form, reCaptchaRef, onSubmit, isLoading } = useRegisterForm();
@@ -76,14 +76,7 @@ export default function RegisterForm() {
                         </FormItem>
                     )}
                 />
-                <Button
-                    type="submit"
-                    className="h-9 bg-secondary text-secondary-content hover:bg-secondary sm:h-10"
-                    disabled={isLoading}
-                    aria-disabled={isLoading}
-                >
-                    Sign Up
-                </Button>
+                <SubmitButton isLoading={isLoading} text="Sign Up" />
             </form>
         </Form>
     );

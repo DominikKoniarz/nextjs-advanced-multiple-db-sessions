@@ -29,6 +29,10 @@ export const actionClient = createSafeActionClient({
             return e.message;
         }
 
+        if (e instanceof ForbiddenError) {
+            return e.message;
+        }
+
         return "Internal server error occured! Please try again later.";
     },
     defaultValidationErrorsShape: "flattened",
