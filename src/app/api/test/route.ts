@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { Mutex } from "async-mutex";
 
-export const runtime = "node";
+export const runtime = "nodejs";
 
 export const dynamic = "force-dynamic";
 
