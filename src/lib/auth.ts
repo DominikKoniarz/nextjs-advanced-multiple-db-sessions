@@ -9,13 +9,10 @@ import { cache } from "react";
 
 const adapter = new PrismaAdapter(prisma.session, prisma.user);
 
-export const luciaSessionCookieName = "auth_session";
-
 export const lucia = new Lucia(adapter, {
     sessionExpiresIn: new TimeSpan(7, "d"),
     sessionCookie: {
         expires: true,
-        name: luciaSessionCookieName,
         attributes: {
             secure: env.NODE_ENV === "production",
             sameSite: "strict",
