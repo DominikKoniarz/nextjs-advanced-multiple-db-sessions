@@ -5,6 +5,8 @@ export const runtime = "nodejs";
 
 export const dynamic = "force-dynamic";
 
+export const maxDuration = 30;
+
 const getDelayFrom5Sto15SInMs = () => Math.floor(Math.random() * 10000) + 5000;
 
 const mutex = new Mutex();
