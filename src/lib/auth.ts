@@ -6,8 +6,16 @@ import { prisma } from "./prisma";
 import { env } from "@/env";
 import { cookies } from "next/headers";
 import { cache } from "react";
+import { Google } from "arctic";
+import { GOOGLE_REDIRECT_URI } from "@/constants/auth";
 
 const adapter = new PrismaAdapter(prisma.session, prisma.user);
+
+export const google = new Google(
+    env.GOOGLE_CLIENT_ID,
+    env.GOOGLE_CLIENT_SECRET,
+    GOOGLE_REDIRECT_URI,
+);
 
 export const lucia = new Lucia(adapter, {
     sessionExpiresIn: new TimeSpan(7, "d"),
@@ -18,6 +26,14 @@ export const lucia = new Lucia(adapter, {
             sameSite: "strict",
             path: "/",
         },
+    },
+    getSessionAttributes: ({ ip }) => {
+        return { ip };
+    },
+    getUserAttributes: ({ googleId }) => {
+        return {
+            googleId,
+        };
     },
 });
 

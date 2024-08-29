@@ -3,6 +3,14 @@ import "server-only";
 import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 
+export const getUserById = (id: string) => {
+    return prisma.user.findUnique({
+        where: {
+            id,
+        },
+    });
+};
+
 export const getUserByEmail = (email: string) => {
     return prisma.user.findUnique({
         where: {
@@ -11,10 +19,10 @@ export const getUserByEmail = (email: string) => {
     });
 };
 
-export const getUserById = (id: string) => {
+export const getUserByGoogleId = (googleId: string) => {
     return prisma.user.findUnique({
         where: {
-            id,
+            googleId,
         },
     });
 };

@@ -1,21 +1,22 @@
 import type { PrismaClient } from "@prisma/client";
+import type { lucia } from "@/lib/auth";
 
 declare global {
     var db: PrismaClient | undefined;
-}
-
-interface DatabaseUserAttributes {
-    email: string;
 }
 
 interface DatabaseSessionAttributes {
     ip: string;
 }
 
+interface DatabaseUserAttributes {
+    googleId: string;
+}
+
 declare module "lucia" {
     interface Register {
         Lucia: typeof lucia;
-        DatabaseUserAttributes: DatabaseUserAttributes;
         DatabaseSessionAttributes: DatabaseSessionAttributes;
+        DatabaseUserAttributes: DatabaseUserAttributes;
     }
 }

@@ -3,6 +3,7 @@
 import { getUserByEmail } from "@/data-access/users";
 import { lucia } from "@/lib/auth";
 import { comparePassword, hashPassword } from "@/lib/bcrypt";
+import { getRequestIp } from "@/lib/ip";
 import { verifyReCaptcha } from "@/lib/reCaptcha";
 import {
     actionClient,
@@ -10,7 +11,7 @@ import {
     ForbiddenError,
 } from "@/lib/safeAction";
 import loginSchema from "@/schema/loginSchema";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 const loginUser = actionClient
@@ -25,7 +26,7 @@ const loginUser = actionClient
 
         const foundUser = await getUserByEmail(email);
 
-        if (!foundUser) {
+        if (!foundUser || !foundUser.password) {
             // This is for security reasons, so that attackers can't guess if an email is registered or not
             await hashPassword(password);
 
@@ -40,10 +41,7 @@ const loginUser = actionClient
         if (!passwordMatch)
             throw new ForbiddenError("Invalid email or password!");
 
-        const ip =
-            headers().get("x-real-ip") ||
-            headers().get("x-forwarded-for") ||
-            "127.0.0.1";
+        const ip = getRequestIp();
 
         const session = await lucia.createSession(foundUser.id, { ip });
         const sessionCookie = lucia.createSessionCookie(session.id);

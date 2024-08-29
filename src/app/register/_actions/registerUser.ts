@@ -3,6 +3,7 @@
 import { createUser, getUserByEmail } from "@/data-access/users";
 import { lucia } from "@/lib/auth";
 import { hashPassword } from "@/lib/bcrypt";
+import { getRequestIp } from "@/lib/ip";
 import { verifyReCaptcha } from "@/lib/reCaptcha";
 import {
     actionClient,
@@ -10,7 +11,7 @@ import {
     ForbiddenError,
 } from "@/lib/safeAction";
 import registerSchema from "@/schema/registerSchema";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 const registerUser = actionClient
@@ -35,10 +36,7 @@ const registerUser = actionClient
             password: hashedPassword,
         });
 
-        const ip =
-            headers().get("x-real-ip") ||
-            headers().get("x-forwarded-for") ||
-            "127.0.0.1";
+        const ip = getRequestIp();
 
         const session = await lucia.createSession(newUser.id, { ip });
         const sessionCookie = lucia.createSessionCookie(session.id);

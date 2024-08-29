@@ -1,6 +1,8 @@
 import LoginCTA from "./_components/LoginCTA";
 import NewHere from "./_components/NewHere";
 import LoginForm from "./_components/LoginForm";
+import GoogleSignInButton from "@/components/GoogleSignInButton";
+import Hr from "@/components/Hr";
 import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
@@ -14,9 +16,13 @@ export default async function LoginPage() {
             <div className="relative z-10 mx-auto flex w-full max-w-xs flex-col gap-6 rounded-2xl border bg-white p-6 shadow transition-all sm:max-w-sm sm:gap-8 sm:p-8">
                 <LoginCTA />
                 <LoginForm />
+                <Hr />
+                <GoogleSignInButton />
                 <NewHere />
             </div>
-            {/* TODO: google login */}
+            {/* Handle email already in use */}
+            {/* TODO: invalidate session - delete from db */}
+            {/* What with registering new account while already email used with google - probably we want to reject */}
         </main>
     );
 }

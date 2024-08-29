@@ -17,7 +17,8 @@ datasource db {
 model User {
   id       String    @id @default(uuid())
   email    String    @unique @db.VarChar(1024)
-  password String    @db.VarChar(256)
+  password String?   @db.VarChar(256)
+  googleId String?   @unique @db.VarChar(256)
   sessions Session[]
 
   @@index([id])
