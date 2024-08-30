@@ -20,7 +20,6 @@ export default async function RegisterPage() {
                 <GoogleSignInButton text="Sign up with Google" />
                 <AlreadyBeenHere />
             </div>
-            {/* TODO: Password se zobaczyć */}
         </main>
     );
 }

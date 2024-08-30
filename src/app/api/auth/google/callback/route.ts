@@ -1,4 +1,5 @@
 import {
+    EMAIL_ALREADY_IN_USE_ERROR,
     GOOGLE_CODE_VERIFIER_COOKIE_NAME,
     GOOGLE_OAUTH_STATE_COOKIE_NAME,
 } from "@/constants/auth";
@@ -102,7 +103,7 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
         if (foundUserByEmail)
             return NextResponse.redirect(
                 new URL(
-                    "/login?error=EMAIL_ALREADY_IN_USE",
+                    `/login?error=${EMAIL_ALREADY_IN_USE_ERROR}`,
                     env.NEXT_PUBLIC_BASE_URL,
                 ),
                 {

@@ -1,8 +1,10 @@
+import { Suspense } from "react";
 import LoginCTA from "./_components/LoginCTA";
 import NewHere from "./_components/NewHere";
 import LoginForm from "./_components/LoginForm";
 import GoogleSignInButton from "@/components/GoogleSignInButton";
 import Hr from "@/components/Hr";
+import AuthErrors from "./_components/AuthErrors";
 import { validateRequest } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
@@ -20,9 +22,11 @@ export default async function LoginPage() {
                 <GoogleSignInButton />
                 <NewHere />
             </div>
-            {/* Handle email already in use */}
             {/* TODO: invalidate session - delete from db */}
-            {/* What with registering new account while already email used with google - probably we want to reject */}
+            {/* Suspense as docs suggest */}
+            <Suspense>
+                <AuthErrors />
+            </Suspense>
         </main>
     );
 }
