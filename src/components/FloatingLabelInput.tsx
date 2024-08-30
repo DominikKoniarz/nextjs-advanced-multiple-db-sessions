@@ -1,7 +1,11 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { forwardRef, useId } from "react";
+import { forwardRef, useId, useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { Button } from "./ui/button";
 
 export interface FloatingLabelInput
     extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -12,6 +16,8 @@ export interface FloatingLabelInput
 
 const FloatingLabelInput = forwardRef<HTMLInputElement, FloatingLabelInput>(
     (props, ref) => {
+        const [showPassword, setShowPassword] = useState<boolean>(false);
+
         const { className, value, placeholder, type } = props;
 
         const floatLabel =
@@ -23,15 +29,22 @@ const FloatingLabelInput = forwardRef<HTMLInputElement, FloatingLabelInput>(
         return (
             <Label
                 htmlFor={id}
-                className="group relative w-full max-w-full shrink-0 space-y-0"
+                className="group relative flex h-fit w-full max-w-full shrink-0 flex-row items-center space-y-0 rounded-ll border-2 transition-[border] duration-100 hover:border-slate-800 has-[input:focus-visivle]:border-2 has-[input:focus-visible]:border-primary"
             >
                 <Input
                     {...props}
                     id={id}
-                    type={type}
+                    type={
+                        type === "password"
+                            ? !showPassword
+                                ? "password"
+                                : "text"
+                            : type
+                    }
                     ref={ref}
                     className={cn(
-                        "peer h-fit w-full rounded-ll border-2 px-3 py-1.5 text-sm transition-[border,font] duration-100 hover:border-slate-800 focus-visible:border-2 focus-visible:border-primary focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 group-hover:border-2 group-hover:border-primary sm:px-4 sm:py-2 sm:text-base",
+                        "peer h-fit w-full rounded-xl border-0 px-3 py-1.5 text-sm transition-[font] duration-100 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 sm:px-4 sm:py-2 sm:text-base",
+                        type === "password" && "pr-0.5 sm:pr-0.5",
                         className,
                     )}
                     placeholder=""
@@ -45,6 +58,22 @@ const FloatingLabelInput = forwardRef<HTMLInputElement, FloatingLabelInput>(
                 >
                     {placeholder}
                 </span>
+                {type === "password" && (
+                    <Button
+                        type="button"
+                        className="mx-1 flex h-fit w-fit items-center justify-center bg-transparent px-px py-[5px] text-slate-500 transition-all hover:bg-slate-200/70 focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 sm:mx-1.5 sm:px-1 sm:py-1.5"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            setShowPassword((prev) => !prev);
+                        }}
+                    >
+                        {!showPassword ? (
+                            <EyeOff className="h-4 sm:h-5" />
+                        ) : (
+                            <Eye className="h-4 sm:h-5" />
+                        )}
+                    </Button>
+                )}
             </Label>
         );
     },
