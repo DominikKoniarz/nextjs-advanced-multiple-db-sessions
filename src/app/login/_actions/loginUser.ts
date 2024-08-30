@@ -51,6 +51,10 @@ const loginUser = actionClient
             sessionCookie.attributes,
         );
 
+        // only for purpose of testing this application - to not have a lot of sessions in the database
+        // usually this should be done in a cron job
+        await lucia.deleteExpiredSessions();
+
         redirect("/dashboard");
     });
 

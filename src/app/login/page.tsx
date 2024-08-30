@@ -22,7 +22,6 @@ export default async function LoginPage() {
                 <GoogleSignInButton />
                 <NewHere />
             </div>
-            {/* TODO: invalidate session - delete from db */}
             {/* Suspense as docs suggest */}
             <Suspense>
                 <AuthErrors />
