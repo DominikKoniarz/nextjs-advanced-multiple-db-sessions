@@ -23,12 +23,12 @@ export const lucia = new Lucia(adapter, {
         expires: true,
         attributes: {
             secure: env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "lax",
             path: "/",
         },
     },
-    getSessionAttributes: ({ ip }) => {
-        return { ip };
+    getSessionAttributes: ({ ip, browserName, osName }) => {
+        return { ip, browserName, osName };
     },
     getUserAttributes: ({ googleId }) => {
         return {

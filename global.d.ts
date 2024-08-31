@@ -7,6 +7,8 @@ declare global {
 
 interface DatabaseSessionAttributes {
     ip: string;
+    browserName: string | null;
+    osName: string | null;
 }
 
 interface DatabaseUserAttributes {

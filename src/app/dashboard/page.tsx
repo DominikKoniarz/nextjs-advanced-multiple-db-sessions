@@ -1,6 +1,8 @@
 import { lucia, validateRequest } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import Heading from "./_components/Heading";
+import SessionTile from "./_components/SessionTile/SessionTile";
 
 // for now - for test
 const logout = async () => {
@@ -21,23 +23,38 @@ const logout = async () => {
     return redirect("/login");
 };
 export default async function DashboardPage() {
-    const { user } = await validateRequest();
+    const { user, session } = await validateRequest();
 
-    if (!user) redirect("/login");
+    if (!user || !session) redirect("/login");
+
+    const sessions = await lucia.getUserSessions(user.id);
 
     return (
-        <main className="flex h-full w-full flex-col items-center justify-center px-6 pb-10 xs:px-14 sm:gap-6 lg:px-8">
-            {/* <div className="relative z-10 mx-auto flex w-full max-w-xs flex-col gap-6 rounded-2xl border bg-white p-6 shadow transition-all sm:max-w-sm sm:gap-8 sm:p-8">
-
-    </div> */}
-            <form action={logout} className="z-10 bg-white p-5">
-                <button
-                    className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
-                    type="submit"
-                >
-                    Logout
-                </button>
-            </form>
+        <main className="h-full w-full p-6 xs:p-8 sm:p-14">
+            <div className="relative z-10 mx-auto w-full max-w-screen-lg space-y-5 rounded-md border bg-white px-5 py-4 pb-8 shadow">
+                <div className="flex flex-row items-center justify-between">
+                    <Heading />
+                    <form action={logout}>
+                        <button className="text-primary underline">
+                            Logout
+                        </button>
+                    </form>
+                </div>
+                <p className="font-medium text-error">
+                    Remember! Do not leak your sessions id!
+                </p>
+                {sessions.length > 0 && (
+                    <div className="grid w-full grid-cols-2 gap-4">
+                        {sessions.map((item) => (
+                            <SessionTile
+                                key={item.id}
+                                session={item}
+                                isCurrent={item.id === session.id}
+                            />
+                        ))}
+                    </div>
+                )}
+            </div>
         </main>
     );
 }

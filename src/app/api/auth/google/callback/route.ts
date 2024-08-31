@@ -11,9 +11,10 @@ import {
 import { env } from "@/env";
 import { google, lucia } from "@/lib/auth";
 import { getRequestIp } from "@/lib/ip";
+import { getDataFromUserAgent } from "@/lib/userAgent";
 import { googleUserSchema } from "@/schema/OAuthSchemas";
 import { OAuth2RequestError } from "arctic";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
@@ -79,16 +80,24 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
 
         const ip = getRequestIp();
 
+        const userAgent = headers().get("user-agent") ?? "";
+        const dataFromUserAgent = getDataFromUserAgent(userAgent);
+
         if (foundUserWithGoogleId) {
             const session = await lucia.createSession(
                 foundUserWithGoogleId.id,
-                { ip },
+                {
+                    ip,
+                    browserName: dataFromUserAgent.browser.name,
+                    osName: dataFromUserAgent.os.name,
+                },
             );
             const sessionCookie = lucia.createSessionCookie(session.id);
-            cookies().set(sessionCookie.name, sessionCookie.value, {
-                ...sessionCookie.attributes,
-                sameSite: "lax",
-            });
+            cookies().set(
+                sessionCookie.name,
+                sessionCookie.value,
+                sessionCookie.attributes,
+            );
 
             return NextResponse.redirect(
                 new URL("/dashboard", env.NEXT_PUBLIC_BASE_URL),
@@ -116,12 +125,17 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
             email: googleUser.email,
         });
 
-        const session = await lucia.createSession(newUser.id, { ip });
-        const sessionCookie = lucia.createSessionCookie(session.id);
-        cookies().set(sessionCookie.name, sessionCookie.value, {
-            ...sessionCookie.attributes,
-            sameSite: "lax",
+        const session = await lucia.createSession(newUser.id, {
+            ip,
+            browserName: dataFromUserAgent.browser.name,
+            osName: dataFromUserAgent.os.name,
         });
+        const sessionCookie = lucia.createSessionCookie(session.id);
+        cookies().set(
+            sessionCookie.name,
+            sessionCookie.value,
+            sessionCookie.attributes,
+        );
 
         return NextResponse.redirect(
             new URL("/dashboard", env.NEXT_PUBLIC_BASE_URL),

@@ -10,8 +10,9 @@ import {
     BadRequestError,
     ForbiddenError,
 } from "@/lib/safeAction";
+import { getDataFromUserAgent } from "@/lib/userAgent";
 import loginSchema from "@/schema/loginSchema";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 const loginUser = actionClient
@@ -43,7 +44,14 @@ const loginUser = actionClient
 
         const ip = getRequestIp();
 
-        const session = await lucia.createSession(foundUser.id, { ip });
+        const userAgent = headers().get("user-agent") ?? "";
+        const dataFromUserAgent = getDataFromUserAgent(userAgent);
+
+        const session = await lucia.createSession(foundUser.id, {
+            ip,
+            browserName: dataFromUserAgent.browser.name,
+            osName: dataFromUserAgent.os.name,
+        });
         const sessionCookie = lucia.createSessionCookie(session.id);
         cookies().set(
             sessionCookie.name,

@@ -25,10 +25,12 @@ model User {
 }
 
 model Session {
-  id        String   @id @default(uuid())
-  userId    String   @db.VarChar(256)
-  expiresAt DateTime
-  ip        String   @db.VarChar(64)
+  id          String   @id @default(uuid())
+  userId      String   @db.VarChar(256)
+  expiresAt   DateTime
+  ip          String   @db.VarChar(64)
+  browserName String?  @db.VarChar(256)
+  osName      String?  @db.VarChar(256)
 
   user User @relation(references: [id], fields: [userId], onDelete: Cascade)
 
