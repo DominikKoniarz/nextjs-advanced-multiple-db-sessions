@@ -14,9 +14,11 @@ export default function SessionTile({ session, isCurrent }: Props) {
         <div className="w-full rounded-md border-2 bg-white p-4 text-copy">
             <div className="mb-1 flex flex-row items-center justify-between">
                 <SessionTileIdWithToolTip id={session.id} />
-                <SessionTileDeleteAlert
-                    key={`delete-session-alert-${session.id}`}
-                />
+                {!isCurrent && (
+                    <SessionTileDeleteAlert
+                        key={`delete-session-alert-${session.id}`}
+                    />
+                )}
             </div>
             <div className="flex flex-row items-end justify-between">
                 <SessionTileData session={session} />
