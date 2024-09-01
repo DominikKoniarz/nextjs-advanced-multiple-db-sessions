@@ -10,7 +10,7 @@ export default function SessionTileIdWithToolTip({ id }: { id: string }) {
         <TooltipProvider delayDuration={200}>
             <Tooltip>
                 <TooltipTrigger>
-                    <h2 className="max-w-72 overflow-hidden text-ellipsis text-lg font-bold">
+                    <h2 className="max-w-48 overflow-hidden text-ellipsis text-base font-bold transition-all xxs:max-w-60 xs:max-w-72 sm:max-w-80 md:text-lg lg:max-w-80 xl:max-w-96">
                         {id}
                     </h2>
                 </TooltipTrigger>

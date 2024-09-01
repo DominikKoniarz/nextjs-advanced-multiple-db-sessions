@@ -13,7 +13,7 @@ export default async function SessionsTiles({
     return (
         <>
             {sessions.length > 0 && (
-                <div className="grid w-full grid-cols-2 gap-4">
+                <div className="grid w-full grid-cols-1 gap-4 lg:grid-cols-2">
                     {sessions.map((item) => (
                         <SessionTile
                             key={item.id}

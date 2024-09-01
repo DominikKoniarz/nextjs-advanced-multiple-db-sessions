@@ -33,7 +33,7 @@ export default async function DashboardPage() {
 
     return (
         <main className="h-full w-full p-6 xs:p-8 sm:p-14">
-            <div className="relative z-10 mx-auto w-full max-w-screen-lg space-y-5 rounded-md border bg-white px-5 py-4 pb-8 shadow">
+            <div className="relative z-10 mx-auto w-full max-w-screen-sm space-y-5 rounded-md border bg-white px-5 py-4 pb-8 shadow transition-all lg:max-w-screen-lg">
                 <div className="flex flex-row items-center justify-between">
                     <Heading />
                     <form action={logout}>
@@ -42,15 +42,15 @@ export default async function DashboardPage() {
                         </button>
                     </form>
                 </div>
-                <p className="font-medium text-error">
+                <p className="text-sm font-medium text-error sm:text-base">
                     Remember! Do not leak your sessions id!
                 </p>
-
                 <Suspense fallback={<SessionsTilesSkeleton />}>
                     <SessionsTiles
                         sessionsPromise={sessionsPromise}
                         currentSessionId={session.id}
                     />
+                    <SessionsTilesSkeleton />
                 </Suspense>
             </div>
         </main>
