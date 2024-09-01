@@ -35,7 +35,7 @@ export default function SessionTileDeleteAlert({ sessionId }: Props) {
                         logout the user from this session.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
-                <AlertDialogFooter>
+                <AlertDialogFooter className="gap-2 sm:gap-0">
                     <Button
                         variant="outline"
                         size="sm"

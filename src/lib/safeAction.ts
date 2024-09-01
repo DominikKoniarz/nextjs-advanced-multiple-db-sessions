@@ -46,7 +46,8 @@ export const userActionClient = actionClient.use(async ({ next }) => {
         throw new UnauthorizedError("Unauthorized");
     }
 
-    const userId = user.id;
+    const { id: userId } = user;
+    const { id: sessionId } = session;
 
-    return next({ ctx: { userId } });
+    return next({ ctx: { userId, sessionId } });
 });

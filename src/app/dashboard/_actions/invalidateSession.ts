@@ -11,19 +11,27 @@ import invalidateSessionSchema from "@/schema/invalidateSessionSchema";
 
 const invalidateSession = userActionClient
     .schema(invalidateSessionSchema)
-    .action(async ({ parsedInput: { sessionId }, ctx: { userId } }) => {
-        const foundSession = await getSingleSession(sessionId);
+    .action(
+        async ({
+            parsedInput: { sessionId },
+            ctx: { userId, sessionId: currentSessionId },
+        }) => {
+            if (sessionId === currentSessionId)
+                throw new BadRequestError("Cannot invalidate current session!");
 
-        if (!foundSession) throw new BadRequestError("Session not found!");
+            const foundSession = await getSingleSession(sessionId);
 
-        if (foundSession.userId !== userId)
-            throw new UnauthorizedError(
-                "Unauthorized to invalidate this session!",
-            );
+            if (!foundSession) throw new BadRequestError("Session not found!");
 
-        await lucia.invalidateSession(sessionId);
+            if (foundSession.userId !== userId)
+                throw new UnauthorizedError(
+                    "Unauthorized to invalidate this session!",
+                );
 
-        return { success: true };
-    });
+            await lucia.invalidateSession(sessionId);
+
+            return { success: true };
+        },
+    );
 
 export default invalidateSession;
