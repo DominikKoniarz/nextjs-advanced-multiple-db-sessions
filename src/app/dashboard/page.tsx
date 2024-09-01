@@ -2,7 +2,9 @@ import { lucia, validateRequest } from "@/lib/auth";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import Heading from "./_components/Heading";
-import SessionTile from "./_components/SessionTile/SessionTile";
+import { Suspense } from "react";
+import SessionsTiles from "./_components/SessionsTiles";
+import SessionsTilesSkeleton from "./_components/SessionsTilesSkeleton";
 
 // for now - for test
 const logout = async () => {
@@ -27,7 +29,7 @@ export default async function DashboardPage() {
 
     if (!user || !session) redirect("/login");
 
-    const sessions = await lucia.getUserSessions(user.id);
+    const sessionsPromise = lucia.getUserSessions(user.id);
 
     return (
         <main className="h-full w-full p-6 xs:p-8 sm:p-14">
@@ -43,17 +45,13 @@ export default async function DashboardPage() {
                 <p className="font-medium text-error">
                     Remember! Do not leak your sessions id!
                 </p>
-                {sessions.length > 0 && (
-                    <div className="grid w-full grid-cols-2 gap-4">
-                        {sessions.map((item) => (
-                            <SessionTile
-                                key={item.id}
-                                session={item}
-                                isCurrent={item.id === session.id}
-                            />
-                        ))}
-                    </div>
-                )}
+
+                <Suspense fallback={<SessionsTilesSkeleton />}>
+                    <SessionsTiles
+                        sessionsPromise={sessionsPromise}
+                        currentSessionId={session.id}
+                    />
+                </Suspense>
             </div>
         </main>
     );
