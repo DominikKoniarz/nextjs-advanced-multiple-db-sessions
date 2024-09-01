@@ -34,5 +34,5 @@ model Session {
 
   user User @relation(references: [id], fields: [userId], onDelete: Cascade)
 
-  @@index([userId])
+  @@index([userId, id])
 }

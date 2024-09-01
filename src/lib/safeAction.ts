@@ -1,4 +1,5 @@
 import { createSafeActionClient } from "next-safe-action";
+import { validateRequest } from "./auth";
 
 export class BadRequestError extends Error {
     constructor(public message: string) {
@@ -36,4 +37,16 @@ export const actionClient = createSafeActionClient({
         return "Internal server error occured! Please try again later.";
     },
     defaultValidationErrorsShape: "flattened",
+});
+
+export const userActionClient = actionClient.use(async ({ next }) => {
+    const { session, user } = await validateRequest();
+
+    if (!session || !user) {
+        throw new UnauthorizedError("Unauthorized");
+    }
+
+    const userId = user.id;
+
+    return next({ ctx: { userId } });
 });

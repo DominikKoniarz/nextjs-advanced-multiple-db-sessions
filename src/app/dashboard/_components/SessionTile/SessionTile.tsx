@@ -17,6 +17,7 @@ export default function SessionTile({ session, isCurrent }: Props) {
                 {!isCurrent && (
                     <SessionTileDeleteAlert
                         key={`delete-session-alert-${session.id}`}
+                        sessionId={session.id}
                     />
                 )}
             </div>
