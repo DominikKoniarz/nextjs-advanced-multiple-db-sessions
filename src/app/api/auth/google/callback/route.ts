@@ -2,6 +2,8 @@ import {
     EMAIL_ALREADY_IN_USE_ERROR,
     GOOGLE_CODE_VERIFIER_COOKIE_NAME,
     GOOGLE_OAUTH_STATE_COOKIE_NAME,
+    INTERNAL_SERVER_ERROR,
+    OAUTH_ERROR,
 } from "@/constants/auth";
 import {
     createUser,
@@ -35,31 +37,35 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
             { status: 400 },
         );
 
-    const codeVerified = codeVerifierCookie?.value;
+    const codeVerifier = codeVerifierCookie?.value;
     const savedState = stateCookie?.value;
 
-    if (!codeVerified || !savedState)
-        return NextResponse.json(
-            {
-                error: "Invalid request!",
-                message: "Code verifier and state are required!",
-            },
-            { status: 400 },
-        );
+    if (!codeVerifier || !savedState) {
+        console.error("Invalid request! Code verifier and state are required!");
 
-    if (savedState !== state)
-        return NextResponse.json(
+        return NextResponse.redirect(
+            new URL(`/login?error=${OAUTH_ERROR}`, env.NEXT_PUBLIC_BASE_URL),
             {
-                error: "Invalid request!",
-                message: "State mismatch!",
+                status: 302,
             },
-            { status: 400 },
         );
+    }
+
+    if (savedState !== state) {
+        console.error("Invalid request! State mismatch!");
+
+        return NextResponse.redirect(
+            new URL(`/login?error=${OAUTH_ERROR}`, env.NEXT_PUBLIC_BASE_URL),
+            {
+                status: 302,
+            },
+        );
+    }
 
     try {
         const tokens = await google.validateAuthorizationCode(
             code,
-            codeVerifierCookie.value,
+            codeVerifier,
         );
 
         const response = await fetch(
@@ -149,17 +155,18 @@ export const GET = async (req: NextRequest): Promise<NextResponse> => {
             console.error(request);
             console.error(message);
             console.error(description);
-
-            return NextResponse.json(
-                { error: "Invalid request!" },
-                { status: 400 },
-            );
+        } else {
+            console.error(error);
         }
 
-        console.error(error);
-        return NextResponse.json(
-            { error: "Internal server error" },
-            { status: 500 },
+        return NextResponse.redirect(
+            new URL(
+                `/login?error=${INTERNAL_SERVER_ERROR}`,
+                env.NEXT_PUBLIC_BASE_URL,
+            ),
+            {
+                status: 302,
+            },
         );
     }
 };
