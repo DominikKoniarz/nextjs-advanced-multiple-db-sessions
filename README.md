@@ -10,8 +10,5 @@ Couple other packages were used. Ex. arctic for OAuth authentication, bcrypt, re
 <br/>
 Beside showcasing possibility of remotely invalidating sessions I could improve my design skills. Better with every new project.
 <br/>
-Project is hosted on Vercel. Used Vercel postgres.
+Project was hosted on Vercel. Used Vercel postgres.
 
-# Try it!
-
-App is available [here](https://advanced-sessions.dominikkoniarz.pl/).
